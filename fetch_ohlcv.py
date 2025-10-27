@@ -158,8 +158,12 @@ def fetch_ohlcv_mt5(
 # -----------------------------
 def export_csv(df: pd.DataFrame, filepath: str, append: bool = False):
     os.makedirs(os.path.dirname(filepath) or ".", exist_ok=True)
-    if append and os.path.exists(filepath):
-        # append ด้วย header=False
+
+    # ถ้า append แต่ไฟล์ยังไม่มี ต้องเขียน header ให้ครบ
+    if append and not os.path.exists(filepath):
+        append = False
+
+    if append:
         df.to_csv(filepath, mode="a", header=False, index=False)
     else:
         df.to_csv(filepath, index=False)
@@ -223,7 +227,7 @@ def watch_and_export_on_close(
         for tf in timeframes:
             df = fetch_ohlcv_mt5(symbol, tf, 2, tz_out="UTC")  # ใช้ UTC ภายในเพื่อเปรียบเทียบเวลา
             # บรรทัด [-1] คือแท่งล่าสุด "ปิดแล้ว" จาก MT5 (copy_rates_from_pos คืนแท่งที่ปิดแล้ว)
-            last_closed_time[tf] = df["time"].iloc[-1].to_pydatetime().replace(tzinfo=timezone.utc)
+            last_closed_time[tf] = df["time"].iloc[-1].to_pydatetime().astimezone(timezone.utc)
 
         print(f"เริ่มเฝ้า {symbol} TF={timeframes} | กด Ctrl+C เพื่อหยุด")
 
@@ -236,13 +240,13 @@ def watch_and_export_on_close(
                     continue
 
                 # แท่งปิดล่าสุดจาก MT5 (UTC epoch)
-                latest_closed_utc = datetime.utcfromtimestamp(int(rates[-1]["time"])).replace(tzinfo=timezone.utc)
+                latest_closed_utc = datetime.fromtimestamp(int(rates[-1]["time"]), tz=timezone.utc)
 
                 if latest_closed_utc > last_closed_time[tf]:
                     # มีแท่งใหม่ปิดแล้ว
                     if full_refresh_on_close:
                         # ดึงทั้ง block แล้วเขียนทับ
-                   		df = fetch_ohlcv_mt5(symbol, tf, bars_to_keep, tz_out)
+                        df = fetch_ohlcv_mt5(symbol, tf, bars_to_keep, tz_out)
                         export_csv(df, out_paths[tf], append=False)
                         print(f"[{datetime.now()}] {symbol} {tf} CLOSED -> refresh file")
                     else:
