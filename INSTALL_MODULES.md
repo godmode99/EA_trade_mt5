@@ -17,6 +17,16 @@ python -m venv .venv
 python -m pip install --upgrade pip
 ```
 
+> **หากพบ error** `ModuleNotFoundError: No module named 'pip._vendor.packaging'` **ระหว่างสั่ง `python -m pip`**<br>
+> แสดงว่า `pip` ภายใน virtual environment ถูกติดตั้งไม่สมบูรณ์ ให้แก้ไขตามขั้นตอนนี้ก่อน:
+>
+> ```powershell
+> python -m ensurepip --upgrade
+> python -m pip install --upgrade pip
+> ```
+>
+> คำสั่ง `ensurepip` จะติดตั้ง/กู้คืน wheel ของ `pip` ที่มากับ Python จากนั้นคำสั่งถัดมาจะอัปเดตเป็นเวอร์ชันล่าสุดอีกครั้ง เมื่อแก้ไขแล้วจึงไปทำขั้นตอนถัดไปได้
+
 ## 3. ติดตั้งโมดูลหลักที่ต้องใช้
 
 > เพื่อให้แน่ใจว่าการติดตั้งอยู่ภายใน virtual environment เดียวกัน แนะนำให้เรียก `pip` ผ่าน `python -m pip` เสมอ (ป้องกันไม่ให้ไปใช้ `pip` นอก venv โดยไม่ตั้งใจ)
