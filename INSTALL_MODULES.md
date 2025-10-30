@@ -19,8 +19,10 @@ python -m pip install --upgrade pip
 
 ## 3. ติดตั้งโมดูลหลักที่ต้องใช้
 
+> เพื่อให้แน่ใจว่าการติดตั้งอยู่ภายใน virtual environment เดียวกัน แนะนำให้เรียก `pip` ผ่าน `python -m pip` เสมอ (ป้องกันไม่ให้ไปใช้ `pip` นอก venv โดยไม่ตั้งใจ)
+
 ```powershell
-pip install pandas MetaTrader5
+python -m pip install pandas MetaTrader5
 ```
 
 ## 4. ติดตั้งโมดูลเสริม (สำหรับ Python < 3.9)
@@ -28,7 +30,7 @@ pip install pandas MetaTrader5
 สคริปต์รองรับทั้ง `zoneinfo` (มีใน Python 3.9 ขึ้นไป) และ `pytz` เป็นทางเลือกสำรอง หากใช้ Python รุ่นเก่ากว่าให้ติดตั้ง `pytz` เพิ่มเติม:
 
 ```powershell
-pip install pytz
+python -m pip install pytz
 ```
 
 ## 5. ตรวจสอบการติดตั้ง
@@ -54,7 +56,7 @@ pytz ; python_version < "3.9"
 แล้วรันคำสั่ง
 
 ```powershell
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 เพื่อให้ง่ายต่อการติดตั้งซ้ำในอนาคต
