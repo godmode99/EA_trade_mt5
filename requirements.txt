@@ -1,0 +1,3 @@
+pandas
+MetaTrader5
+pytz; python_version < "3.9"
