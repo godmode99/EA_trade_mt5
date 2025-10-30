@@ -17,11 +17,12 @@ python -m pip install --upgrade pip
 ```
 
 ## 3. ติดตั้งโมดูลที่จำเป็น
-รันคำสั่งต่อไปนี้เพื่อให้ได้ทุกโมดูลที่ `fetch_ohlcv.py` ใช้งาน:
+รันคำสั่งต่อไปนี้เพื่อให้ได้ทุกโมดูลที่ `fetch_ohlcv.py` ใช้งาน (รวมถึง dependency ภายในอย่าง `six`):
 ```powershell
-python -m pip install pandas MetaTrader5 pytz
+python -m pip install -r requirements.txt
 ```
 > **หมายเหตุ**
+> * หากติดตั้งแบบกำหนดเอง ควรแน่ใจว่ามีแพ็กเกจ `pandas`, `MetaTrader5`, `python-dateutil`, `pytz` และ `six` ครบถ้วน
 > * บน Python 3.9 ขึ้นไป สามารถใช้โมดูล `zoneinfo` ที่มีมาให้ใน Python ได้อยู่แล้ว ไม่ต้องติดตั้งเพิ่ม
 > * โมดูล `pytz` จะถูกใช้เฉพาะกรณีที่ไม่สามารถใช้ `zoneinfo` ได้
 

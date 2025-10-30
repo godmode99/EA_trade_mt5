@@ -16,7 +16,17 @@ import os
 import time
 from datetime import datetime, timezone, timedelta
 
-import pandas as pd
+try:
+    import pandas as pd
+except ModuleNotFoundError as exc:
+    # ผู้ใช้บางรายอาจติดตั้ง pandas แล้ว แต่ขาด dependency ภายในอย่าง "six"
+    # จึงแสดงคำแนะนำที่ชัดเจนเพื่อแก้ไข
+    if exc.name == "six":
+        raise SystemExit(
+            "ไม่พบโมดูล 'six' ซึ่งเป็น dependency ของ pandas\n"
+            "โปรดติดตั้งด้วยคำสั่ง: python -m pip install six"
+        ) from exc
+    raise
 try:
     # ถ้ามี Python 3.9+ ใช้ zoneinfo (แนะนำ ความแม่นยำสูงกว่า pytz ในอนาคต)
     from zoneinfo import ZoneInfo
